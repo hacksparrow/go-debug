@@ -3,27 +3,6 @@
 
  Conditional debug logging for Go libraries.
 
-## What?
-
- The basic premise is that every library should have some form of debug logging,
- ideally enabled without touching code.
-
- Executables often support `--verbose` flags for conditional logging, but
- libraries typically either require altering your code to enable logging,
- or simply omit logging all together. go-debug allows conditional logging
- to be enabled via the __DEBUG__ environment variable, where one or more
- patterns may be specified.
-
- For example suppose your application has several models and you want
- to output logs for users only, you might use `DEBUG=models:user`. In contrast
- if you wanted to see what all database activity was you might use `DEBUG=models:*`,
- or if you're love being swamped with logs: `DEBUG=*`.
-
- The name given _should_ be the package name, however you can use whatever you like.
-
- A nanosecond delta is also displayed in the log output to help identify timing issues
- or potential bottlenecks.
-
 ## Installation
 
 ```
@@ -71,6 +50,28 @@ outputs:
     28us single - send email to loki@segment.io
     29us single - send email to jane@segment.io
 ```
+
+## What?
+
+ The basic premise is that every library should have some form of debug logging,
+ ideally enabled without touching code.
+
+ Executables often support `--verbose` flags for conditional logging, but
+ libraries typically either require altering your code to enable logging,
+ or simply omit logging all together. go-debug allows conditional logging
+ to be enabled via the __DEBUG__ environment variable, where one or more
+ patterns may be specified.
+
+ For example suppose your application has several models and you want
+ to output logs for users only, you might use `DEBUG=models:user`. In contrast
+ if you wanted to see what all database activity was you might use `DEBUG=models:*`,
+ or if you're love being swamped with logs: `DEBUG=*`.
+
+ The name given _should_ be the package name, however you can use whatever you like.
+
+ A nanosecond delta is also displayed in the log output to help identify timing issues
+ or potential bottlenecks.
+
 
 # License
 
