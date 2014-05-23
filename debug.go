@@ -12,7 +12,7 @@ import "os"
 // Variables
 //
 
-var prev time.Time = time.Now()
+var prevGlobal time.Time = time.Now()
 var reg *regexp.Regexp
 var env string
 
@@ -71,12 +71,18 @@ func Debug(name string) DebugFunction {
 	}
 
 	color := colors[rand.Intn(len(colors))]
+	prev := time.Now()
 
 	return func(format string, args ...interface{}) {
 		now := time.Now()
+
+		globalDelta := now.Sub(prevGlobal).Nanoseconds()
 		delta := now.Sub(prev).Nanoseconds()
-		s := fmt.Sprintf("%8s", NanoToHuman(delta))
-		fmt.Printf(s+" \033["+color+"m"+name+"\033[0m - "+format+"\n", args...)
+
+		deltas := fmt.Sprintf("%8s \033["+color+"m%-8s", NanoToHuman(globalDelta), NanoToHuman(delta))
+
+		fmt.Printf(deltas+" \033["+color+"m"+name+"\033[0m - "+format+"\n", args...)
+		prevGlobal = now
 		prev = now
 	}
 }

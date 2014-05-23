@@ -6,17 +6,16 @@ import "time"
 var a DebugFunction = Debug("multiple:a")
 var b DebugFunction = Debug("multiple:b")
 
-func work(debug DebugFunction) {
+func work(debug DebugFunction, delay time.Duration) {
 	for {
 		debug("doing stuff")
-		time.Sleep(100 * time.Millisecond)
+		time.Sleep(delay)
 	}
 }
 
 func main() {
-	go work(a)
-	go work(b)
+	go work(a, 1000*time.Millisecond)
+	go work(b, 100*time.Millisecond)
 
-	a("quitting")
 	time.Sleep(5 * time.Second)
 }

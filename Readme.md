@@ -33,23 +33,26 @@ func main() {
 outputs:
 
 ```
-    43us single - sending mail
-    31us single - send email to tobi@segment.io
-     4us single - send email to loki@segment.io
-     3us single - send email to jane@segment.io
-   500ms single - sending mail
-    49us single - send email to tobi@segment.io
-    11us single - send email to loki@segment.io
-    10us single - send email to jane@segment.io
-   501ms single - sending mail
-    60us single - send email to tobi@segment.io
-    16us single - send email to loki@segment.io
-    11us single - send email to jane@segment.io
-   500ms single - sending mail
-    71us single - send email to tobi@segment.io
-    28us single - send email to loki@segment.io
-    29us single - send email to jane@segment.io
+    79us 15us     multiple:a - doing stuff
+    44us 55us     multiple:b - doing stuff
+   100ms 100ms    multiple:b - doing stuff
+   100ms 100ms    multiple:b - doing stuff
+   101ms 101ms    multiple:b - doing stuff
+   100ms 100ms    multiple:b - doing stuff
+   101ms 101ms    multiple:b - doing stuff
+   101ms 101ms    multiple:b - doing stuff
+   101ms 101ms    multiple:b - doing stuff
+   101ms 101ms    multiple:b - doing stuff
+   100ms 100ms    multiple:b - doing stuff
+    92ms 1s       multiple:a - doing stuff
+     8ms 101ms    multiple:b - doing stuff
+   100ms 100ms    multiple:b - doing stuff
+   100ms 100ms    multiple:b - doing stuff
+   100ms 100ms    multiple:b - doing stuff
+   100ms 100ms    multiple:b - doing stuff
 ```
+
+Two deltas are displayed, the left-most delta is relative to the previous debug call of any name, followed by a delta specific to that debug function. These may be useful to identify timing issues and potential bottlenecks.
 
 ## What?
 
@@ -69,9 +72,6 @@ outputs:
  or if you're love being swamped with logs: `DEBUG=*`.
 
  The name given _should_ be the package name, however you can use whatever you like.
-
- A nanosecond delta is also displayed in the log output to help identify timing issues
- or potential bottlenecks.
 
 # License
 
