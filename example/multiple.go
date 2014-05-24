@@ -3,8 +3,8 @@ package main
 import . "github.com/visionmedia/go-debug"
 import "time"
 
-var a DebugFunction = Debug("multiple:a")
-var b DebugFunction = Debug("multiple:b")
+var a = Debug("multiple:a")
+var b = Debug("multiple:b")
 
 func work(debug DebugFunction, delay time.Duration) {
 	for {

@@ -17,7 +17,7 @@ package main
 import . "github.com/visionmedia/go-debug"
 import "time"
 
-var debug DebugFunction = Debug("single")
+var debug = Debug("single")
 
 func main() {
   for {
