@@ -1,4 +1,10 @@
 
+1.1.0 / 2014-06-29
+==================
+
+ * add unix domain socket live debugging support
+ * add support for enabling/disabling at runtime
+
 0.1.0 / 2014-05-24
 ==================
 
