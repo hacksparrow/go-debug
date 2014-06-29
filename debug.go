@@ -32,20 +32,13 @@ var colors []string = []string{
 	"36",
 }
 
-//
-// Initialize based on
-// the DEBUG env var
-//
-
+// Initialize with DEBUG environment variable.
 func init() {
 	env := os.Getenv("DEBUG")
 	if "" != env {
 		Enable(env)
 	}
 }
-
-// DebugFunction returned by Debug() calls
-type DebugFunction func(string, ...interface{})
 
 // Enable the given debug `pattern`. Patterns take a glob-like form,
 // for example if you wanted to enable everything, just use "*", or
@@ -74,7 +67,7 @@ func Disable() {
 
 // Debug creates a debug function for `name` which you call
 // with printf-style arguments in your application or library.
-func Debug(name string) DebugFunction {
+func Debug(name string) func(string, ...interface{}) {
 	prevGlobal := time.Now()
 	color := colors[rand.Intn(len(colors))]
 	prev := time.Now()

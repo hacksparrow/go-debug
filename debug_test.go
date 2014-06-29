@@ -1,8 +1,9 @@
 package debug
 
-import "strings"
 import "testing"
+import "strings"
 import "bytes"
+import "time"
 
 func assertContains(t *testing.T, str, substr string) {
 	if !strings.Contains(str, substr) {
@@ -113,6 +114,18 @@ func TestEnableDisable(t *testing.T) {
 
 	if buf.Len() != 0 {
 		t.Fatalf("buffer should not have output")
+	}
+}
+
+func ExampleDebug() {
+	var debug = Debug("single")
+
+	for {
+		debug("sending mail")
+		debug("send email to %s", "tobi@segment.io")
+		debug("send email to %s", "loki@segment.io")
+		debug("send email to %s", "jane@segment.io")
+		time.Sleep(500 * time.Millisecond)
 	}
 }
 
