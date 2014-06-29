@@ -1,17 +1,19 @@
 package debug
 
-import "math/rand"
-import "strconv"
-import "strings"
-import "regexp"
-import "bufio"
-import "sync"
-import "time"
-import "fmt"
-import "net"
-import "log"
-import "os"
-import "io"
+import (
+	"bufio"
+	"fmt"
+	"io"
+	"log"
+	"math/rand"
+	"net"
+	"os"
+	"regexp"
+	"strconv"
+	"strings"
+	"sync"
+	"time"
+)
 
 // Pattern regexp.
 var reg *regexp.Regexp
