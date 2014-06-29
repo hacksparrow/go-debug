@@ -4,9 +4,12 @@ import "math/rand"
 import "strconv"
 import "strings"
 import "regexp"
+import "bufio"
 import "sync"
 import "time"
 import "fmt"
+import "net"
+import "log"
 import "os"
 import "io"
 
@@ -22,6 +25,9 @@ var Writer io.Writer = os.Stderr
 // Mutex for enabling/disabling.
 var m sync.Mutex
 
+// Debugger function.
+type DebugFunction func(string, ...interface{})
+
 // Terminal colors used at random.
 var colors []string = []string{
 	"31",
@@ -35,8 +41,67 @@ var colors []string = []string{
 // Initialize with DEBUG environment variable.
 func init() {
 	env := os.Getenv("DEBUG")
+
 	if "" != env {
 		Enable(env)
+	}
+
+	go serve()
+}
+
+// Serve debugging information of a temporary unix domain socket.
+func serve() {
+	path := fmt.Sprintf("/tmp/debug-%d.sock", os.Getpid())
+	lsock, err := net.Listen("unix", path)
+
+	if err != nil {
+		log.Printf("debug: failed to create %s", path)
+		return
+	}
+
+	for {
+		sock, err := lsock.Accept()
+		if err != nil {
+			log.Printf("debug: failed to accept connection")
+			continue
+		}
+
+		go talk(sock)
+	}
+}
+
+// Chat with the socket about receving debug lines.
+// TODO: support multiple listeners
+func talk(sock net.Conn) {
+	prev := Writer
+	Writer = sock
+
+	for {
+		r := bufio.NewReader(sock)
+		b, _, err := r.ReadLine()
+		if err != nil {
+			log.Printf("debug: failed read command, disabling")
+			Disable()
+			Writer = prev
+			return
+		}
+
+		cmd := string(b)
+
+		switch strings.Trim(cmd, " ") {
+		case "quit", "q":
+			log.Printf("debug: quit")
+			Disable()
+			sock.Close()
+			Writer = prev
+			return
+		case "disable", "d":
+			log.Printf("debug: disabling")
+			Disable()
+		default:
+			log.Printf("debug: enabling %q", cmd)
+			Enable(cmd)
+		}
 	}
 }
 
@@ -67,7 +132,7 @@ func Disable() {
 
 // Debug creates a debug function for `name` which you call
 // with printf-style arguments in your application or library.
-func Debug(name string) func(string, ...interface{}) {
+func Debug(name string) DebugFunction {
 	prevGlobal := time.Now()
 	color := colors[rand.Intn(len(colors))]
 	prev := time.Now()
