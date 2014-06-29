@@ -117,6 +117,13 @@ func TestEnableDisable(t *testing.T) {
 	}
 }
 
+func ExampleEnable() {
+	Enable("mongo:connection")
+	Enable("mongo:*")
+	Enable("foo,bar,baz")
+	Enable("*")
+}
+
 func ExampleDebug() {
 	var debug = Debug("single")
 
