@@ -68,7 +68,7 @@ A timestamp and two deltas are displayed. The timestamp consists of hour, minute
  all disabled with "d", followed by enabling two specific functions,
  and finally quitting with "q".
 
-```go
+```
 $ telnet /tmp/debug-15324.sock
 *
 16:56:54.693 71s    71s    multiple:c - doing stuff
