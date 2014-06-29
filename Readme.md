@@ -3,6 +3,8 @@
 
  Conditional debug logging for Go libraries.
 
+ View the [docs](http://godoc.org/github.com/visionmedia/go-debug).
+
 ## Installation
 
 ```
@@ -33,26 +35,25 @@ func main() {
 outputs:
 
 ```
-    79us 15us     multiple:a - doing stuff
-    44us 55us     multiple:b - doing stuff
-   100ms 100ms    multiple:b - doing stuff
-   100ms 100ms    multiple:b - doing stuff
-   101ms 101ms    multiple:b - doing stuff
-   100ms 100ms    multiple:b - doing stuff
-   101ms 101ms    multiple:b - doing stuff
-   101ms 101ms    multiple:b - doing stuff
-   101ms 101ms    multiple:b - doing stuff
-   101ms 101ms    multiple:b - doing stuff
-   100ms 100ms    multiple:b - doing stuff
-    92ms 1s       multiple:a - doing stuff
-     8ms 101ms    multiple:b - doing stuff
-   100ms 100ms    multiple:b - doing stuff
-   100ms 100ms    multiple:b - doing stuff
-   100ms 100ms    multiple:b - doing stuff
-   100ms 100ms    multiple:b - doing stuff
+15:58:15.115 34us   33us   single - sending mail
+15:58:15.116 3us    3us    single - send email to tobi@segment.io
+15:58:15.116 1us    1us    single - send email to loki@segment.io
+15:58:15.116 1us    1us    single - send email to jane@segment.io
+15:58:15.620 504ms  504ms  single - sending mail
+15:58:15.620 6us    6us    single - send email to tobi@segment.io
+15:58:15.620 4us    4us    single - send email to loki@segment.io
+15:58:15.620 4us    4us    single - send email to jane@segment.io
+15:58:16.123 503ms  503ms  single - sending mail
+15:58:16.123 7us    7us    single - send email to tobi@segment.io
+15:58:16.123 4us    4us    single - send email to loki@segment.io
+15:58:16.123 4us    4us    single - send email to jane@segment.io
+15:58:16.625 501ms  501ms  single - sending mail
+15:58:16.625 4us    4us    single - send email to tobi@segment.io
+15:58:16.625 4us    4us    single - send email to loki@segment.io
+15:58:16.625 5us    5us    single - send email to jane@segment.io
 ```
 
-Two deltas are displayed, the left-most delta is relative to the previous debug call of any name, followed by a delta specific to that debug function. These may be useful to identify timing issues and potential bottlenecks.
+A timestamp and two deltas are displayed. The timestamp consists of hour, minute, second and microseconds. The left-most delta is relative to the previous debug call of any name, followed by a delta specific to that debug function. These may be useful to identify timing issues and potential bottlenecks.
 
 ## What?
 
