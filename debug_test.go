@@ -20,7 +20,7 @@ func assertNotContains(t *testing.T, str, substr string) {
 func TestDefault(t *testing.T) {
 	var b []byte
 	buf := bytes.NewBuffer(b)
-	Writer = buf
+	SetWriter(buf)
 
 	debug := Debug("foo")
 	debug("something")
@@ -35,7 +35,7 @@ func TestDefault(t *testing.T) {
 func TestEnable(t *testing.T) {
 	var b []byte
 	buf := bytes.NewBuffer(b)
-	Writer = buf
+	SetWriter(buf)
 
 	Enable("foo")
 
@@ -57,7 +57,7 @@ func TestEnable(t *testing.T) {
 func TestMultipleOneEnabled(t *testing.T) {
 	var b []byte
 	buf := bytes.NewBuffer(b)
-	Writer = buf
+	SetWriter(buf)
 
 	Enable("foo")
 
@@ -79,7 +79,7 @@ func TestMultipleOneEnabled(t *testing.T) {
 func TestMultipleEnabled(t *testing.T) {
 	var b []byte
 	buf := bytes.NewBuffer(b)
-	Writer = buf
+	SetWriter(buf)
 
 	Enable("foo,bar")
 
@@ -101,7 +101,7 @@ func TestMultipleEnabled(t *testing.T) {
 func TestEnableDisable(t *testing.T) {
 	var b []byte
 	buf := bytes.NewBuffer(b)
-	Writer = buf
+	SetWriter(buf)
 
 	Enable("foo,bar")
 	Disable()

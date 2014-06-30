@@ -15,17 +15,12 @@ import (
 	"time"
 )
 
-// Pattern regexp.
-var reg *regexp.Regexp
-
-// Whether or not any are enabled.
-var enabled = false
-
-// Writer used when outputting debug information.
-var Writer io.Writer = os.Stderr
-
-// Mutex for enabling/disabling.
-var m sync.Mutex
+var (
+	writer  io.Writer = os.Stderr
+	reg     *regexp.Regexp
+	m       sync.Mutex
+	enabled = false
+)
 
 // Debugger function.
 type DebugFunction func(string, ...interface{})
@@ -75,8 +70,7 @@ func serve() {
 // Chat with the socket about receving debug lines.
 // TODO: support multiple listeners
 func talk(sock net.Conn) {
-	prev := Writer
-	Writer = sock
+	SetWriter(sock)
 
 	for {
 		r := bufio.NewReader(sock)
@@ -84,7 +78,6 @@ func talk(sock net.Conn) {
 		if err != nil {
 			log.Printf("debug: failed read command, disabling")
 			Disable()
-			Writer = prev
 			return
 		}
 
@@ -95,7 +88,6 @@ func talk(sock net.Conn) {
 			log.Printf("debug: quit")
 			Disable()
 			sock.Close()
-			Writer = prev
 			return
 		case "disable", "d":
 			log.Printf("debug: disabling")
@@ -105,6 +97,13 @@ func talk(sock net.Conn) {
 			Enable(cmd)
 		}
 	}
+}
+
+// SetWriter replaces the default of os.Stderr with `w`.
+func SetWriter(w io.Writer) {
+	m.Lock()
+	defer m.Unlock()
+	writer = w
 }
 
 // Enable the given debug `pattern`. Patterns take a glob-like form,
@@ -149,7 +148,7 @@ func Debug(name string) DebugFunction {
 		}
 
 		d := deltas(prevGlobal, prev, color)
-		fmt.Fprintf(Writer, d+" \033["+color+"m"+name+"\033[0m - "+format+"\n", args...)
+		fmt.Fprintf(writer, d+" \033["+color+"m"+name+"\033[0m - "+format+"\n", args...)
 		prevGlobal = time.Now()
 		prev = time.Now()
 	}
